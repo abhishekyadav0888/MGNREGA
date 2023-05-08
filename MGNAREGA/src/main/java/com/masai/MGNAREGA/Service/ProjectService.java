@@ -2,6 +2,7 @@ package com.masai.MGNAREGA.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -38,8 +39,8 @@ public class ProjectService {
 			startDate=new Date();
 			endDate=new Date();
 		}
-		GPM gpm=gpmDaoImpl.getGPMById(-1);
-		Project project=new Project(projectName, startDate, endDate, workers, wage, null, gpm);
+//		GPM gpm=gpmDaoImpl.getGPMById(-1);
+		Project project=new Project(projectName, startDate, endDate, workers, wage, null);
 		return project;
 	}
 	
@@ -53,11 +54,11 @@ public class ProjectService {
 //		return sc.nextInt();
 //	}
 	
-//	public int scanTenderId(Scanner sc) {
-//		System.out.println("Enter Project Id For Which You Want add Bid");
-//		
-//		return sc.nextInt();
-//	}
+	public int scanProjectId(Scanner sc) {
+		System.out.println("Enter Project Id For Which You Want assign");
+		
+		return sc.nextInt();
+	}
 	
 //	public void printTenderBidHistory(List<Vendor> tenderBidHistory) {
 //		for(int i=0;i<tenderBidHistory.size();i++) {
@@ -74,8 +75,12 @@ public class ProjectService {
 		int gpmId=sc.nextInt();
 		Project assignProject=projectDaoImpl.getProjectByProjectId(projectId);
 		GPM assignGPM=gpmDaoImpl.getGPMById(gpmId);
-		assignProject.setGpm(assignGPM);
-		projectDaoImpl.saveProject(assignProject);
+//		assignProject.setGpm(assignGPM);
+		List<Project> projects = new ArrayList<>();
+		projects.add(assignProject);
+		assignGPM.setAllocatedProject(projects);
+		
+		gpmDaoImpl.saveGPM(assignGPM);
 		
 	}
 	

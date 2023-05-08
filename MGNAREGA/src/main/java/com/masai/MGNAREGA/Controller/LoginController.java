@@ -52,26 +52,28 @@ public class LoginController {
 		System.out.println("Sign Up SuccessFull");
 	}
 	
-	public GPM gpmLogin(Scanner sc) {
+	public void gpmLogin(Scanner sc) {
 		EntityManagerFactory emf=GetConnection.getEmf();
 		EntityManager em=emf.createEntityManager();
 		System.out.println("Enter Gram Panchayat Member(GPM) User_Name");
 		String username=sc.next();
 		System.out.println("Enter Gram Panchayat Member(GPM) Password");
 		String password=sc.next();
-		String sql = "SELECT * FROM gpm WHERE username LIKE :username AND userPasword LIKE :password";
-		Query query=em.createNativeQuery(sql,GPM.class);
+//		String sql = "SELECT * FROM gpm WHERE userIdGPM = :username AND passwordGPM = :password";
+		Query query=em.createQuery("SELECT g FROM GPM g WHERE g.userIdGPM = :username AND g.passwordGPM = :password");
 		query.setParameter("username", username);
 		query.setParameter("password", password);
 		try {
 			GPM gpm=(GPM) query.getSingleResult();
 			if(gpm!=null) {
-				return gpm;
+				GPMcontroller gpmc = new GPMcontroller();
+				gpmc.gpmMethod(sc, gpm);
+			} else {
+				System.out.println("Wrong Credentials");
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return null;
 		
 	}
 	
@@ -87,13 +89,7 @@ public class LoginController {
 				gpmSignUp(sc);
 				break;
 			case 2:
-				GPM gpm=gpmLogin(sc);
-				if(gpm!=null) {
-//					new GPMcontroller().gpmMethod(sc,gpm);
-				}else {
-					System.out.println("Wrong Credentials");
-				}
-				
+				gpmLogin(sc);				
 				break;
 			case 7:
 				System.out.println("Exited To Main Menu");

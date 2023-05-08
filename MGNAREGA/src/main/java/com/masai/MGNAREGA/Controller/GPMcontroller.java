@@ -9,7 +9,7 @@ import com.masai.MGNAREGA.Service.ProjectService;
 
 public class GPMcontroller {
 	
-	public void vendorMethod(Scanner sc, GPM gpm) {
+	public void gpmMethod(Scanner sc, GPM gpm) {
 		ProjectDaoImpl projectDaoImpl=new ProjectDaoImpl();
 		ProjectService projectService=new ProjectService();
 		GPMService gpmService=new GPMService();

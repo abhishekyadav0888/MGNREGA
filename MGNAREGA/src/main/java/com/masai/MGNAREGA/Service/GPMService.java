@@ -31,6 +31,7 @@ public class GPMService {
 		String state = sc.next();
 		
 		GPM gpm = new GPM(userId, password, adhar, name, null, gender, pachayat, district, state, null, null);
+		
 		return gpm;
 	}
 	

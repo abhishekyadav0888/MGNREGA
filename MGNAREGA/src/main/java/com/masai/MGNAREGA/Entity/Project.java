@@ -1,9 +1,9 @@
 package com.masai.MGNAREGA.Entity;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,19 +17,15 @@ import jakarta.persistence.ManyToOne;
 public class Project {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String projectName;
 	private Date startDate;
 	private Date endDate;
 	private Integer noOfWorkers;
 	private Integer per_day_wages;
-	@ManyToMany
-	@JoinTable(name="gpmForProject", joinColumns = {@JoinColumn(referencedColumnName = "projectId")}, inverseJoinColumns = {@JoinColumn(referencedColumnName = "gpmId")})
-    private List<GPM> gpmList;
-	@ManyToOne
-	@JoinColumn(name ="fkGpmId")
-	private GPM gpm;
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Worker> workerlist;
 
 	public Project() {
 		super();
@@ -37,15 +33,14 @@ public class Project {
 	}
 
 	public Project(String projectName, Date startDate, Date endDate, Integer noOfWorkers, Integer per_day_wages,
-			List<GPM> gpmList, GPM gpm) {
+			List<Worker> workerlist) {
 		super();
 		this.projectName = projectName;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.noOfWorkers = noOfWorkers;
 		this.per_day_wages = per_day_wages;
-		this.gpmList = gpmList;
-		this.gpm = gpm;
+		this.workerlist = workerlist;
 	}
 
 	public Integer getId() {
@@ -96,28 +91,24 @@ public class Project {
 		this.per_day_wages = per_day_wages;
 	}
 
-	public List<GPM> getGpmList() {
-		return gpmList;
+	public List<Worker> getWorkerlist() {
+		return workerlist;
 	}
 
-	public void setGpmList(List<GPM> gpmList) {
-		this.gpmList = gpmList;
-	}
-
-	public GPM getGpm() {
-		return gpm;
-	}
-
-	public void setGpm(GPM gpm) {
-		this.gpm = gpm;
+	public void setWorkerlist(List<Worker> workerlist) {
+		this.workerlist = workerlist;
 	}
 
 	@Override
 	public String toString() {
-		return "id=" + id + ", projectName=" + projectName + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", noOfWorkers=" + noOfWorkers + ", per_day_wages=" + per_day_wages + ", gpmList=" + gpmList
-				+ ", gpm=" + gpm;
+		return "Project [id=" + id + ", projectName=" + projectName + ", startDate=" + startDate + ", endDate="
+				+ endDate + ", noOfWorkers=" + noOfWorkers + ", per_day_wages=" + per_day_wages + ", workerlist="
+				+ workerlist + "]";
 	}
+
+	
+
+	
 	
 	
 
