@@ -8,14 +8,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
 public class GPM {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer gpmId;
 	private String userIdGPM;
 	private String passwordGPM;
@@ -26,19 +25,17 @@ public class GPM {
 	private String panchayatName;
 	private String district;
 	private String state;
-	
-	@ManyToMany(mappedBy = "gpmList", cascade = CascadeType.ALL)
-    private List<Project> workerList;
-    @OneToMany(mappedBy = "gpm", cascade = CascadeType.ALL)
-    private List<Project> projectList;
-
-    public GPM() {
+	private Integer is_deleted;
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Project> allocatedProject;
+    
+	public GPM() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	public GPM(String userIdGPM, String passwordGPM, String aadhaarNumber, String name, LocalDate dob, String gender,
-			String panchayatName, String district, String state, List<Project> workerList, List<Project> projectList) {
+			String panchayatName, String district, String state, Integer is_deleted, List<Project> allocatedProject) {
 		super();
 		this.userIdGPM = userIdGPM;
 		this.passwordGPM = passwordGPM;
@@ -49,8 +46,8 @@ public class GPM {
 		this.panchayatName = panchayatName;
 		this.district = district;
 		this.state = state;
-		this.workerList = workerList;
-		this.projectList = projectList;
+		this.is_deleted = is_deleted;
+		this.allocatedProject = allocatedProject;
 	}
 
 	public Integer getGpmId() {
@@ -133,29 +130,35 @@ public class GPM {
 		this.state = state;
 	}
 
-	public List<Project> getWorkerList() {
-		return workerList;
+	public Integer getIs_deleted() {
+		return is_deleted;
 	}
 
-	public void setWorkerList(List<Project> workerList) {
-		this.workerList = workerList;
+	public void setIs_deleted(Integer is_deleted) {
+		this.is_deleted = is_deleted;
 	}
 
-	public List<Project> getProjectList() {
-		return projectList;
+	public List<Project> getAllocatedProject() {
+		return allocatedProject;
 	}
 
-	public void setProjectList(List<Project> projectList) {
-		this.projectList = projectList;
+	public void setAllocatedProject(List<Project> allocatedProject) {
+		this.allocatedProject = allocatedProject;
 	}
 
 	@Override
 	public String toString() {
-		return "gpmId=" + gpmId + ", userIdGPM=" + userIdGPM + ", passwordGPM=" + passwordGPM + ", aadhaarNumber="
+		return "GPM [gpmId=" + gpmId + ", userIdGPM=" + userIdGPM + ", passwordGPM=" + passwordGPM + ", aadhaarNumber="
 				+ aadhaarNumber + ", name=" + name + ", dob=" + dob + ", gender=" + gender + ", panchayatName="
-				+ panchayatName + ", district=" + district + ", state=" + state + ", workerList=" + workerList
-				+ ", projectList=" + projectList;
+				+ panchayatName + ", district=" + district + ", state=" + state + ", is_deleted=" + is_deleted
+				+ ", allocatedProject=" + allocatedProject + "]";
 	}
+
+
+
+	
+
+    
 	
 
 	

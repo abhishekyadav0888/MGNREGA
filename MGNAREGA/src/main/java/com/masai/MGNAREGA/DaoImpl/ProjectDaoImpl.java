@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import com.masai.MGNAREGA.Dao.ProjectDao;
 import com.masai.MGNAREGA.Entity.Project;
+import com.masai.MGNAREGA.Entity.Worker;
 import com.masai.MGNAREGA.Util.DBUtils.GetConnection;
 
 import jakarta.persistence.EntityManager;
@@ -42,7 +43,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		
 		EntityManagerFactory emf = GetConnection.getEmf();
 		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select p from Project p where p.projectId=:projectID");
+		Query query = em.createQuery("Select p from Project p where p.id=:projectID");
 		query.setParameter("projectID", id);
 		Project project = (Project) query.getSingleResult();
 		return project;
@@ -56,26 +57,17 @@ public class ProjectDaoImpl implements ProjectDao {
 	}
 
 	@Override
-	public List<Project> workerForProject(Project vendor, Scanner sc) {
+	public List<Worker> workerForProject(Scanner sc) {
+		System.out.println("Enter Project id: ");
+		Integer id = sc.nextInt();
 		EntityManagerFactory emf = GetConnection.getEmf();
 		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select p from Project p where p.project.projectId = -1");
-		List<Project> projectList=query.getResultList();
-		List<Project> customProject = new ArrayList<>();
-		for(int i=0; i<projectList.size(); i++) {
-			boolean isAvailable = false;
-//			for(int j=0; j<projectList.get(i).getBidByList().size();j++) {
-//				
-//				if(tenderList.get(i).getBidByList().get(j).getVendorId()==vendor.getVendorId()) {
-//					
-//					isAvailable=true;
-//				}
-//			}
-//			if(!isAvailable) {
-//				customTender.add(tenderList.get(i));
-//			}
-		}
-		return customProject;
+		Query query = em.createQuery("Select p from Project p where p.id = :id");
+		Project project = (Project) query.getSingleResult();
+		query.setParameter("id", id);
+		List<Worker> workersList = project.getWorkerlist();
+		
+		return workersList;
 	}
 
 }
